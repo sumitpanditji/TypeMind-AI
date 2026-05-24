@@ -1,0 +1,21 @@
+{
+  "name": "typemind-ai",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"npm run dev -w @typemind/api\" \"npm run dev -w @typemind/web\"",
+    "dev:api": "npm run dev -w @typemind/api",
+    "dev:web": "npm run dev -w @typemind/web",
+    "build": "npm run build -w @typemind/shared && npm run build -w @typemind/api && npm run build -w @typemind/web",
+    "typecheck": "npm run typecheck -w @typemind/shared && npm run typecheck -w @typemind/api && npm run typecheck -w @typemind/web",
+    "test": "npm run test -w @typemind/shared"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "typescript": "^5.7.3"
+  }
+}
