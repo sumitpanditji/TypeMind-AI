@@ -5,7 +5,8 @@ import {
   type TypingStatsCounters,
 } from "./typing-stats";
 
-export type FinishReason = "time" | "completed" | "manual" | "idle";
+import type { FinishReason } from "./types";
+export type { FinishReason };
 
 export interface ApplyInputResult {
   typed: string;

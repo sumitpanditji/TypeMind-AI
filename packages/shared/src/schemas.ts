@@ -65,6 +65,7 @@ export const typingSessionSchema = z.object({
   keyEvents: z.array(keyEventSchema).max(5000),
   contentHash: z.string().optional(),
   contentPreview: z.string().max(80).optional(),
+  finishReason: z.enum(["time", "completed", "manual", "idle"]).optional(),
 });
 
 export const analyzeSchema = z.object({

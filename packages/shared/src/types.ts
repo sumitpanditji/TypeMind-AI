@@ -1,5 +1,7 @@
 export type UserRole = "user" | "admin";
 
+export type FinishReason = "time" | "completed" | "manual" | "idle";
+
 export type TypingMode =
   | "words"
   | "quote"
@@ -54,6 +56,7 @@ export interface TypingSessionPayload {
   keyEvents: KeyEvent[];
   contentHash?: string;
   contentPreview?: string;
+  finishReason?: FinishReason;
 }
 
 export interface LeaderboardEntry {
