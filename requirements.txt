@@ -1,0 +1,7 @@
+# Project requirements (not a Python pip file)
+Node.js >= 20
+npm >= 10
+Git
+MongoDB local server or Docker (optional for development)
+Docker Desktop (optional, only if running MongoDB in Docker)
+OpenAI API key (optional, AI coach has local fallback)

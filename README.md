@@ -6,30 +6,29 @@ Premium AI-powered typing practice platform. Adaptive exercises, real-time analy
 
 - **Frontend:** Next.js 16, React 19, Tailwind CSS v4, Framer Motion, TanStack Query, Recharts
 - **Backend:** Express.js, MongoDB, Socket.IO, JWT auth, OpenAI API
+- **Shared:** TypeScript types, validation, typing helpers
 - **Monorepo:** npm workspaces (`apps/web`, `apps/api`, `packages/shared`)
 
 ## Prerequisites
 
 - Node.js 20+
-- MongoDB (local or Docker)
+- MongoDB local/Docker, or the built-in dev demo database fallback
+
+See [requirements.txt](./requirements.txt) for the full local requirements.
 
 ## Quick Start
 
-```bash
+```powershell
 # Install dependencies
 npm install
 
-# Copy environment files
-cp .env.example apps/api/.env
-# apps/web/.env.local is pre-configured for local API
+# Copy API environment file
+Copy-Item .env.example apps/api/.env
 
-# Start MongoDB (Docker)
-docker run -d -p 27017:27017 --name typemind-mongo mongo:7
+# Create web environment file
+"NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1" | Set-Content apps/web/.env.local
 
-# Build shared package
-npm run build -w @typemind/shared
-
-# Run API + Web (two terminals or one)
+# Start API + Web
 npm run dev
 ```
 
@@ -37,11 +36,19 @@ npm run dev
 - **API:** http://localhost:4000
 - **Health:** http://localhost:4000/health
 
+If MongoDB is not running and `DEMO_DB_FALLBACK=true`, the API starts an in-memory MongoDB database with demo users:
+
+- `demo@typemind.local` / `Demo@12345`
+- `admin@typemind.local` / `Admin@12345`
+
+For full handoff steps, including Docker MongoDB and the seed command, see [SETUP.md](./SETUP.md).
+
 ## Environment Variables
 
 | Variable | Location | Description |
 |----------|----------|-------------|
 | `MONGODB_URI` | `apps/api/.env` | MongoDB connection string |
+| `DEMO_DB_FALLBACK` | `apps/api/.env` | Starts seeded in-memory MongoDB when local Mongo is unavailable |
 | `JWT_ACCESS_SECRET` | `apps/api/.env` | Access token secret (32+ chars) |
 | `JWT_REFRESH_SECRET` | `apps/api/.env` | Refresh token secret |
 | `OPENAI_API_KEY` | `apps/api/.env` | Optional — enables AI coach & adaptive text |
@@ -61,13 +68,10 @@ Without `OPENAI_API_KEY`, the AI coach uses rule-based fallbacks.
 
 ## Project Structure
 
-See [STRUCTURE.md](./STRUCTURE.md) for the full folder map and route reference.
+See [STRUCTURE.md](./STRUCTURE.md) for the folder map and route reference.
 
 ```
-apps/web/app/
-  (marketing)/     Landing page
-  (auth)/          Login & signup
-  (app)/           Test, dashboard, settings, race, daily, admin
+apps/web/app/      Next.js routes and UI
 apps/api/src/      Express API
 packages/shared/   Shared types & validation
 ```
@@ -79,6 +83,7 @@ packages/shared/   Shared types & validation
 | `npm run dev` | Start API and web concurrently |
 | `npm run dev:api` | API only |
 | `npm run dev:web` | Web only |
+| `npm run seed` | Seed demo users and sessions into real MongoDB |
 | `npm run build` | Build all packages |
 | `npm run typecheck` | TypeScript check all packages |
 
